@@ -18,4 +18,27 @@ router.get('/', function(req, res, next) {
   
 });
 
+router.get('/contacts', function(req,res,next){
+
+res.render('contacts' , { title: 'Contatos - Restaurante Saboro' });
+
+})
+
+router.get('/menus', function(req,res,next){
+
+  res.render('menus' , { title: 'Menus - Restaurante Saboro' });
+  
+  })
+
+router.get('/reservations', function(req,res,next){
+
+  res.render('reservations' ,  { title: 'Reservas -  Restaurante Saboro' });
+
+})
+
+router.get('/services', function(req,res,next){
+
+  res.render('services' ,  { title: 'Restaurante Saboro' });
+
+})
 module.exports = router;
