@@ -1,12 +1,14 @@
 var express = require('express');
+var reservations = require('./../inc/reservations')
 var router = express.Router();
+
 
 /* GET home page. */
 
 router.get('/', function (req, res, next) {
 
 
-  res.render('index', { title: 'Restaurante Saboro',isHome: true });
+  res.render('index', { title: 'Restaurante Saboro', isHome: true });
 
 });
 
@@ -34,13 +36,40 @@ router.get('/menus', function (req, res, next) {
 
 router.get('/reservations', function (req, res, next) {
 
-  res.render('reservations', {
-    title: 'Reservas -  Restaurante Saboro',
-    background: 'images/img_bg_2.jpg',
-    h1: 'Reserve uma Mesa!'
+  reservations.render(req, res)
 
-  });
+  })
 
+router.post('/reservations', function (req, res, next) {
+
+  if (!req.body.name) {
+
+  reservations.render(req, res , "Digite o nome");
+  
+
+  } else if (!req.body.email) {
+
+    reservations.render(req, res ,"Digite o email");
+  
+
+  } else if (!req.body.people) {
+
+    reservations.render(req, res ,"insira a quantidade de pessoas");
+
+  }
+  else if (!req.body.date) {
+
+    reservations.render(req, res , "Digite a data");
+
+  } else if (!req.body.time) {
+
+    reservations.render(req, res , "Digite o horario");
+
+  } else {
+
+    res.send(req.body);
+
+  }
 })
 
 router.get('/services', function (req, res, next) {
