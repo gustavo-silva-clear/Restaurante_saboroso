@@ -12,6 +12,14 @@ router.use(function (req, res, next) {
 
     next();
   }
+});
+
+router.get("/logout" , function(req, res , next){
+
+delete req.session.user;
+
+res.redirect("/admin/login");
+
 })
 
 /* GET users listing. */
