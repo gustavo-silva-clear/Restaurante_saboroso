@@ -5,7 +5,7 @@ var router = express.Router();
 
 router.use(function (req, res, next) {
 
-  if (!req.session.user) {
+  if (['/login'].indexOf(req.url) === -1 && !req.session.user) {
 
     res.redirect("/admin/login");
   } else {
