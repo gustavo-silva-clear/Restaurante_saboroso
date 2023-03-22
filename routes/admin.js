@@ -6,13 +6,15 @@ router.get('/', function(req, res, next) {
   res.send('admin/index');
 });
 
-router.get('login' , function(req ,res , next){
-
-if(!req.session.views) req.session.vies = 0;
-
-console.log(req.session.views++);
+router.get('/login' , function(req ,res , next){
 
 res.render('admin/login');
+
+})
+
+router.post('/login' , function(req, res, next){
+
+    
 
 })
 
@@ -23,3 +25,4 @@ router.get('/contacts', function(req, res, next) {
   });
 
 module.exports = router;
+
