@@ -4,8 +4,13 @@ module.exports = {
 
     render(){
 
+        resizeBy.render('admin/login',{
 
-        
+            body: req.body,
+            error
+
+        });
+
     },
 
 
