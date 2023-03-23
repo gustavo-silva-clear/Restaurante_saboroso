@@ -1,6 +1,6 @@
 var express = require('express');
 var admin = require('./../inc/admin');
-var users = require('../inc/users')
+var users = require('./../inc/users')
 var router = express.Router();
 
 router.use(function (req, res, next) {
@@ -34,19 +34,11 @@ router.get('/', function (req, res, next) {
 
 router.get('/login', function (req, res, next) {
 
-  if(!req.session.views) req.session.views = 0;
+  users.render(req, res, null, admin.getParams(req));
+ 
+  res.render("admin/login");
 
-  console.log(req.session.views++);
 
- // users.render(req, res, null, admin.getParams(req));
-
-})
-
-router.get("/logout", function (req, res, next) {
-
-  delete req.session.user;
-
-  res.redirect("/admin/login");
 
 })
 
@@ -77,6 +69,14 @@ router.post('/login', function (req, res, next) {
 
   }
 
+
+})
+
+router.get("/logout", function (req, res, next) {
+
+  delete req.session.user;
+
+  res.redirect("/admin/login");
 
 })
 

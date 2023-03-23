@@ -7,11 +7,11 @@ var conn = require('./../inc/db');
 
 router.get('/', (req, res, next) => {
 
-  let defaults = {
+ /* let defaults = {
     title: 'Restaurante Saboroso!',
     headerIndex: false
   };
-
+*/
   conn.query(
     `SELECT * FROM tb_menus ORDER BY title`,
     (err, results) => {
@@ -73,7 +73,7 @@ router.post('/reservations', function (req, res, next) {
 
   } else if (!req.body.email) {
 
-    reservations.render(req, res ,"Digite o email");
+    reservations.render(req, res ,"Digite o e-mail");
   
 
   } else if (!req.body.people) {

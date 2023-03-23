@@ -2,9 +2,9 @@ var conn = require('./db');
 
 module.exports = {
 
-    render(){
+    render(req, res, error) {
 
-        resizeBy.render('admin/login',{
+        res.render('admin/login', {
 
             body: req.body,
             error
@@ -25,7 +25,7 @@ module.exports = {
             `, [
                 email
 
-            ], (err, results) => {
+                ], (err, results) => {
 
                 if (err) {
 
@@ -45,6 +45,11 @@ module.exports = {
                         if (row.password !== password) {
 
                             reject("Usuário ou senha incorretos")
+
+                        }
+                        else{
+
+                            resolve(row);
 
                         }
                     }
