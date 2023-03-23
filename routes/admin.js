@@ -1,5 +1,5 @@
 var express = require('express');
-const user = require('../inc/users');
+var admin = require('./../inc/admin');
 var users = require('../inc/users')
 var router = express.Router();
 
@@ -14,41 +14,33 @@ router.use(function (req, res, next) {
   }
 });
 
-router.use(function(req, res ,next){
+router.use(function (req, res, next) {
 
-req.menus = admin.getMenus();
+  req.menus = admin.getMenus(req);
 
-next(); 
+  next();
 
 })
 
-router.get("/logout" , function(req, res , next){
+router.get("/logout", function (req, res, next) {
 
-delete req.session.user;
+  delete req.session.user;
 
-res.redirect("/admin/login");
+  res.redirect("/admin/login");
 
 })
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
 
-    res.send('admin/index' , {
+  res.send('admin/index', admin.getParams(req));
 
-      menus: req.menus
 
-    });
-
-  
 });
 
 router.get('/login', function (req, res, next) {
 
-  users.render(req, res, null , {
-
-    menus: req.menus
-
-  });
+  users.render(req, res, null, admin.getParams(req));
 
 })
 
@@ -84,51 +76,31 @@ router.post('/login', function (req, res, next) {
 
 router.get('/contacts', function (req, res, next) {
 
-  res.send('admin/contacts' , {
-
-    menus: req.menus
-
-  });
+  res.send('admin/contacts', admin.getParams(req));
 
 });
 
 router.get('/emails', function (req, res, next) {
 
-  res.send('admin/emails' , {
-
-    menus: req.menus
-
-  });
+  res.send('admin/emails', admin.getParams(req));
 
 });
 
 router.get('/menus', function (req, res, next) {
 
-  res.send('admin/menus' , {
-
-    menus: req.menus
-
-  });
+  res.send('admin/menus', admin.getParams(req));
 
 });
 
 router.get('/reservations', function (req, res, next) {
 
-  res.send('admin/reservations' , {
-    date:{},
-    menus: req.menus
-
-  });
+  res.send('admin/reservations', admin.getParams(req, { date: {} }));
 
 });
 
 router.get('/users', function (req, res, next) {
 
-  res.send('admin/users' , {
-
-    menus: req.menus
-
-  });
+  res.send('admin/users', admin.getParams(req));
 
 });
 
