@@ -7,15 +7,20 @@ var conn = require('./../inc/db');
 
 router.get('/', (req, res, next) => {
 
-  conn.query(
-    "SELECT * FROM tb_menus ORDER BY title",
-    (err, results, fields) => {
+  let defaults = {
+    title: 'Restaurante Saboroso!',
+    headerIndex: false
+  };
 
-      res.render('index', Object.assign({}, defaults, {
+  conn.query(
+    `SELECT * FROM tb_menus ORDER BY title`,
+    (err, results) => {
+
+      res.render('index',  {
         title: 'Restaurante Saboroso!',
         menus: results,
         headerIndex: true
-      }));
+      });
 
     }
   );

@@ -22,13 +22,7 @@ router.use(function (req, res, next) {
 
 })
 
-router.get("/logout", function (req, res, next) {
 
-  delete req.session.user;
-
-  res.redirect("/admin/login");
-
-})
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -40,7 +34,19 @@ router.get('/', function (req, res, next) {
 
 router.get('/login', function (req, res, next) {
 
-  users.render(req, res, null, admin.getParams(req));
+  if(!req.session.views) req.session.views = 0;
+
+  console.log(req.session.views++);
+
+ // users.render(req, res, null, admin.getParams(req));
+
+})
+
+router.get("/logout", function (req, res, next) {
+
+  delete req.session.user;
+
+  res.redirect("/admin/login");
 
 })
 
