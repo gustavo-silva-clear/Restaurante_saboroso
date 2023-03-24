@@ -2,23 +2,27 @@ var conn = require('./db');
 
 module.exports = {
 
-    render(req, res, error) {
+    render(req, res, error , success) {
 
         res.render('reservations', {
             title: 'Reservas -  Restaurante Saboro',
             background: 'images/img_bg_2.jpg',
             h1: 'Reserve uma Mesa!',
-            body: req.body
+            body: req.body,
+            error ,
+            success
         });
     },
 
     save(fields) {
 
-        //MY11 - Efetuando Reserva com Método POST para o MySQL 18:44 / 32:46
-
         return new Promise((resolve, reject) => {
 
-            conn.query(`
+            let date = fields.date.split('/');
+
+            fields.date = `${date[2]}-${date[1]}-${date[0]}`;
+
+        conn.query(`
         INSERT INTO tb_reservations(name, email, people, date, time)
         VALUES(?, ?, ?, ?, ?)
         
@@ -31,14 +35,20 @@ module.exports = {
 
             ], (err, results) => {
 
+                if(err){
 
+                    reject(err);
+
+                } else {
+
+                    resolve(results)
+
+                }
 
             })
 
 
         });
-
-
 
     }
 }
