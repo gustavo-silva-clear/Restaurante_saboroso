@@ -1,29 +1,23 @@
-var express = require('express');
-var reservations = require('./../inc/reservations')
-var router = express.Router();
 var conn = require('./../inc/db');
+var express = require('express');
+var menus = require('./../inc/menus');
+var router = express.Router();
+
 
 /* GET home page. */
 
 router.get('/', (req, res, next) => {
 
- /* let defaults = {
-    title: 'Restaurante Saboroso!',
-    headerIndex: false
-  };
-*/
-  conn.query(
-    `SELECT * FROM tb_menus ORDER BY title`,
-    (err, results) => {
+  menus.getMenus().then(results => {
 
-      res.render('index',  {
-        title: 'Restaurante Saboroso!',
-        menus: results,
-        headerIndex: true
-      });
+    res.render('index', {
+      title: 'Restaurante Saboroso!',
+      menus: results,
+      isHome: true
 
-    }
-  );
+    });
+
+  })
 
 });
 
@@ -33,7 +27,8 @@ router.get('/contacts', function (req, res, next) {
   res.render('contacts', {
     title: 'Contatos - Restaurante Saboro',
     background: 'images/img_bg_3.jpg',
-    h1: 'Diga um oi!'
+    h1: 'Diga um oi!',
+
 
   });
 
@@ -41,53 +36,55 @@ router.get('/contacts', function (req, res, next) {
 
 router.get('/menus', function (req, res, next) {
 
-  conn.query(
-    "SELECT * FROM tb_menus ORDER BY title",
-    (err, results, fields) => {
+  menus.getMenus().then(results => {
 
-      res.render('menu', Object.assign({}, defaults, {
-        title: 'Menu - Restaurante Saboroso!',
-        header: {
-          background: 'images/img_bg_1.jpg',
-          title: 'Saboreie nosso menu!'
-        },
-        menus: results
-      }));
+    res.render('menus', {
+      title: 'Menu - Restaurante Saboroso!',
+      background: 'images/img_bg_5.jpg',
+      h1: 'Saboreie nosso menu!',
+      menus: results,
 
     });
+
+  });
 
 })
 
 router.get('/reservations', function (req, res, next) {
 
-  reservations.render(req, res)
+  res.render('reservations', {
+    title: 'Reservas - Restaurante Saboro',
+    background: 'images/img_bg_3.jpg',
+    h1: 'Faça sua reserva!',
 
-  })
+
+  });
+})
 
 router.post('/reservations', function (req, res, next) {
 
   if (!req.body.name) {
 
-  reservations.render(req, res , "Digite o nome");
-  
+    reservations.render(req, res, "Digite o nome");
+
 
   } else if (!req.body.email) {
 
-    reservations.render(req, res ,"Digite o e-mail");
-  
+    reservations.render(req, res, "Digite o e-mail");
+
 
   } else if (!req.body.people) {
 
-    reservations.render(req, res ,"insira a quantidade de pessoas");
+    reservations.render(req, res, "insira a quantidade de pessoas");
 
   }
   else if (!req.body.date) {
 
-    reservations.render(req, res , "Digite a data");
+    reservations.render(req, res, "Digite a data");
 
   } else if (!req.body.time) {
 
-    reservations.render(req, res , "Digite o horario");
+    reservations.render(req, res, "Digite o horario");
 
   } else {
 
@@ -100,8 +97,9 @@ router.get('/services', function (req, res, next) {
 
   res.render('services', {
     title: 'Restaurante Saboro',
-    background: 'images/img_bg_1.jpg',
-    h1: 'É um prazer poder servir!'
+    background: 'images/img_bg_4.jpg',
+    h1: 'É um prazer poder servir!',
+
 
   });
 
