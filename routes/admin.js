@@ -1,6 +1,6 @@
 var express = require('express');
 var admin = require('./../inc/admin');
-var users = require('./../inc/users')
+var users = require('./../inc/users');
 var router = express.Router();
 
 router.use(function (req, res, next) {
@@ -48,9 +48,9 @@ router.post('/login', function (req, res, next) {
 
     users.render(req, res, "Preencha o campo e-mail!");
 
-  } else if (req.body.password) {
+  } else if (!req.body.password) {
 
-    users.render(req, res, "preencha o campo senha!")
+    users.render(req, res, "Preencha o campo senha!")
 
   } else {
 

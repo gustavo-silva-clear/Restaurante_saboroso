@@ -33,7 +33,7 @@ module.exports = {
 
                 } else {
 
-                    if (results.length > 0) {
+                    if (!results.length > 0) {
 
                         reject("Usuário ou senha incorretos")
 
