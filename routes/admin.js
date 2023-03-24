@@ -7,36 +7,35 @@ router.use(function (req, res, next) {
 
   if (['/login'].indexOf(req.url) === -1 && !req.session.user) {
 
-    res.redirect("/admin/login");
+    res.redirect('/admin/login');
   } else {
 
     next();
   }
 });
 
-router.use(function (req, res, next) {
+router.get('/logout', function (req, res, next) {
 
-  req.menus = admin.getMenus(req);
+  delete req.session.user;
 
-  next();
+  res.redirect('/admin/login');
 
 })
-
 
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
 
-  res.send('admin/index', admin.getParams(req));
+  res.render('admin/index');
 
 
 });
 
 router.get('/login', function (req, res, next) {
 
-  users.render(req, res, null, admin.getParams(req));
+  users.render(req, res, null);
  
-  res.render("admin/login");
+  res.render('/admin/login');
 
 
 
@@ -72,29 +71,21 @@ router.post('/login', function (req, res, next) {
 
 })
 
-router.get("/logout", function (req, res, next) {
-
-  delete req.session.user;
-
-  res.redirect("/admin/login");
-
-})
-
 router.get('/contacts', function (req, res, next) {
 
-  res.send('admin/contacts', admin.getParams(req));
+  res.send('admin/contacts');
 
 });
 
 router.get('/emails', function (req, res, next) {
 
-  res.send('admin/emails', admin.getParams(req));
+  res.send('admin/emails');
 
 });
 
 router.get('/menus', function (req, res, next) {
 
-  res.send('admin/menus', admin.getParams(req));
+  res.send('admin/menus');
 
 });
 
@@ -106,7 +97,7 @@ router.get('/reservations', function (req, res, next) {
 
 router.get('/users', function (req, res, next) {
 
-  res.send('admin/users', admin.getParams(req));
+  res.send('admin/users');
 
 });
 
