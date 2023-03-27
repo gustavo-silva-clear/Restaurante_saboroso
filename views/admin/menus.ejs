@@ -172,15 +172,9 @@
 
       [...document.querySelectorAll('.btn-delete')].forEach(btn => {
 
-
-
         btn.addEventListener('click', e => {
 
-          let tr = e.path.find(el => {
-
-            return (el.tagName.toUpperCase() === 'TR')
-
-          });
+          let tr = btn.parentNode.parentNode;
 
           let data = JSON.parse(tr.dataset.row);
 
@@ -206,11 +200,7 @@
 
         btn.addEventListener('click', e => {
 
-          let tr = e.path.find(el => {
-
-            return (el.tagName.toUpperCase() === 'TR')
-
-          });
+          let tr = btn.parentNode.parentNode;
 
           let data = JSON.parse(tr.dataset.row)
 
