@@ -30,7 +30,7 @@ module.exports = {
 
             fields.photo = `images/${path.parse(files.photo.path).base}`;
 
-            let query, queryPhoto = '' ,params = [
+            let query, queryPhoto = '', params = [
 
                 fields.title,
                 fields.description,
@@ -38,7 +38,7 @@ module.exports = {
 
             ]
 
-            if(files.photo.name){
+            if (files.photo.name) {
 
                 queryPhoto = ',photo = ?';
                 params.push(fields.photo);
@@ -60,12 +60,12 @@ module.exports = {
 
             } else {
 
-                if(!files.photo){
+                if (!files.photo) {
 
                     reject('Envie a foto do prato!');
 
                 }
-               
+
                 query = `
             
                 INSERT INTO  tb_menus (title,  description,  price, photo)
@@ -76,7 +76,7 @@ module.exports = {
 
             }
 
-            conn.query(query , params ,(err, results) => {
+            conn.query(query, params, (err, results) => {
 
                 if (err) {
 
@@ -91,8 +91,39 @@ module.exports = {
 
             });
 
-    })
+        })
 
-}
+    },
+    delete(id){
+
+        return new Promise((resolve , reject) => {
+
+            conn.query(`
+            
+            DELETE FROM tb_menus WHERE id = ?
+            
+            `,[
+
+                id
+
+            ],(err , results)=> {
+
+                if(err) {
+
+                    reject(err);
+
+                }else{
+
+                    resolve(results);
+
+                }
+
+            });
+
+        })
+
+    }
+
+
 
 }
