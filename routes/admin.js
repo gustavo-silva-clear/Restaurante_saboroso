@@ -88,7 +88,6 @@ router.post('/login', function (req, res, next) {
 
 
 })
-
 router.get('/contacts', function (req, res, next) {
 
   res.render('admin/contacts', admin.getParams(req));
