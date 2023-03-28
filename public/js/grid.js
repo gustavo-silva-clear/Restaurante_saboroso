@@ -22,8 +22,8 @@ class grid {
 
             formCreate: '#modal-create form',
             formUpdate: '#modal-update form',
-            btnUpdate: '.btn-update',
-            btnDelete: '.btn-delete',
+            btnUpdate: 'btn-update',
+            btnDelete: 'btn-delete',
             onUpdateload: (form, name, data) => {
 
               let input =  form.querySelector('[name=' + name +']');
@@ -32,6 +32,8 @@ class grid {
             }
 
         }, configs);
+
+        this.rows = [document.querySelector('table tbody tr')];
 
         this.initForms();
         this.initButtons();
@@ -75,59 +77,79 @@ class grid {
 
     }
 
-    
+btnUpdateClick(){
 
+
+        let tr = btn.parentNode.parentNode;
+
+        let data = JSON.parse(tr.dataset.row)
+
+        for (let name in data) {
+
+            this.options.onUpdateload(this.formUpdate , name , data); 
+
+        }
+
+        this.fireEvent('afterUpdateClick', [e]);
+
+
+}
+
+btnDeleteClick(){
+
+
+        this.fireEvent('beforeDeleteClick', [e]);
+
+        let tr = btn.parentNode.parentNode;
+
+        let data = JSON.parse(tr.dataset.row);
+
+        if (confirm(eval('`' + this.options.deleteMsg + '`'))) {
+
+            fetch(eval('`' + this.options.deleteUrl + '`'), {
+                method: 'DELETE'
+            }).then(response => response.json())
+                .then(json => {
+
+                    this.fireEvent('afterDeleteClick', [e]);
+
+
+                })
+
+        }
+
+
+}
     initButtons() {
 
+        this.rows.forEach(row => {
 
-        [...document.querySelectorAll(this.options.btnUpdate)].forEach(btn => {
+            [...row.querySelectorAll('.btn')].forEach(btn => {
 
-            btn.addEventListener('click', e => {
+                btn.addEventListener('click' , e => {
 
-                let tr = btn.parentNode.parentNode;
+                    if(e.target.classList.contains(this.options.btnUpdate)) {
 
-                let data = JSON.parse(tr.dataset.row)
+                        this.btnUpdateClick();
 
-                for (let name in data) {
+                    } else if (e.target.classList.contains(this.options.btnDelete)) {
 
-                    this.options.onUpdateload(this.formUpdate , name , data); 
+                        this.btnDeleteClick();
 
-                }
+                    } else {
 
-                this.fireEvent('afterUpdateClick', [e]);
-            })
+                        this.fireEvent('buttonClick', [e.target, e])
+                    }
+                    
 
-        });
-
-
-        [...document.querySelectorAll(this.options.btnDelete)].forEach(btn => {
-
-            btn.addEventListener('click', e => {
-
-                this.fireEvent('beforeDeleteClick', [e]);
-
-                let tr = btn.parentNode.parentNode;
-
-                let data = JSON.parse(tr.dataset.row);
-
-                if (confirm(eval('`' + this.options.deleteMsg + '`'))) {
-
-                    fetch(eval('`' + this.options.deleteUrl + '`'), {
-                        method: 'DELETE'
-                    }).then(response => response.json())
-                        .then(json => {
-
-                            this.fireEvent('afterDeleteClick', [e]);
-
-
-                        })
-
-                }
+                })
 
 
             });
 
         });
+
+
 
 
     }

@@ -48,8 +48,7 @@
                   <td>
                     <button type="button" class="btn btn-xs btn-info btn-update"><i class="fa fa-pencil"></i>
                       Editar</button>&nbsp;
-                    <button type="button" class="btn btn-xs btn-warning btn-update-password" data-toggle="modal"
-                      data-target="#modal-update-password">
+                    <button type="button" class="btn btn-xs btn-warning btn-update-password">
                       <i class="fa fa-lock"></i> Alterar Senha</button>&nbsp;
                     <button type="button" class="btn btn-xs btn-danger btn-delete"><i class="fa fa-trash"></i>
                       Excluir</button>
@@ -177,23 +176,27 @@
 
         deleteUrl: '/admin/users/${data.id}',
         deleteMsg: 'Deseja realmente excluir o(a) usúario(a) ${data.name}?',
-        onUpdateload: (form, name, data) => {
+        listeners: {
+          buttonClick: (btn, data, e) => {
 
-          let input = form.querySelector(`[name =${name}]`);
+            $("#modal-update-password").modal("show")
 
-          switch (name) {
-
-            case 'date':
-
-              if (input) input.value = moment(data[name]).format('YYYY-MM-DD')
-
-              break;
-
-            default:
-
-              if (input) input.value = data[name];
           }
 
+
         }
+
+      });
+
+      document.querySelector("#modal-update-password form").save().then(results => {
+
+        window.location.reload();
+
+      }).catch(err => {
+
+        alert("Não foi possível alterar a senha!");
+
       })
+
+
     </script>
