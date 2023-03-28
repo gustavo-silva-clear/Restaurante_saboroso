@@ -8,18 +8,24 @@ class grid {
 
                 $('#modal-update').modal('show')
 
+            },
+            afterDeleteClick: (e) => {
+
+                window.location.reload();
             }
 
-        },configs.listeners)
 
-        this.options = Object.assign({} , {
 
-            formCreate:'#modal-create form' ,
-            formUpdate:'#modal-update form' ,
+        }, configs.listeners)
+
+        this.options = Object.assign({}, {
+
+            formCreate: '#modal-create form',
+            formUpdate: '#modal-update form',
             btnUpdate: '.btn-update',
             btnDelete: '.btn-delete'
 
-        },configs);
+        }, configs);
 
         this.initForms();
         this.initButtons();
@@ -28,21 +34,9 @@ class grid {
 
     initForms() {
 
-        let formCreate = document.querySelector(this.options.formCreate);
+        this.formCreate = document.querySelector(this.options.formCreate);
 
-        formCreate.save().then(json => {
-
-            window.location.reload();
-
-        }).catch(err => {
-
-            console.log(err)
-
-        });
-
-        let formUpdate = document.querySelector(this.options.formUpdate);
-
-        formUpdate.save().then(json => {
+        this.formCreate.save().then(json => {
 
             window.location.reload();
 
@@ -52,6 +46,26 @@ class grid {
 
         });
 
+        this.formUpdate = document.querySelector(this.options.formUpdate);
+
+        this.formUpdate.save().then(json => {
+
+            window.location.reload();
+
+        }).catch(err => {
+
+            console.log(err)
+
+        });
+
+
+    }
+
+    fireEvent(name, args) {
+
+        if (typeof this.options.listeners[name] === 'function') {
+            this.options.listeners[name].apply(this, args);
+        }
 
     }
 
@@ -62,6 +76,8 @@ class grid {
 
             btn.addEventListener('click', e => {
 
+                this.fireEvent('beforeDeleteClick', [e]);
+
                 let tr = btn.parentNode.parentNode;
 
                 let data = JSON.parse(tr.dataset.row)
@@ -71,7 +87,7 @@ class grid {
                     let input = this.formUpdate.querySelector(`[name =${name}]`);
 
                     switch (name) {
- 
+
                         case 'date':
 
                             if (input) input.value = moment(data[name]).format('YYYY-MM-DD')
@@ -85,8 +101,7 @@ class grid {
 
                 }
 
-                $('#modal-update').modal('show')
-
+                this.fireEvent('afterUpdateClick', [e]);
             })
 
         });
@@ -107,7 +122,8 @@ class grid {
                     }).then(response => response.json())
                         .then(json => {
 
-                            window.location.reload();
+                            this.fireEvent('afterDeleteClick', [e]);
+
 
                         })
 
