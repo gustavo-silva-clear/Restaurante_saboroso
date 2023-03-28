@@ -15,7 +15,8 @@
       <!-- Main content -->
       <section class="content container-fluid">
 
-       
+        <a href="#" class="btn btn-xs pull-right btn-success" data-toggle="modal" data-target="#modal-create"><i
+          class="fa fa-plus"></i> Novo</a>
           <!-- /.box-header -->
           <div class="box-body no-padding">
             <table class="table table-striped table-hover">
@@ -29,8 +30,10 @@
                   <th>Hora</th>
                   <th style="min-width: 134px;">Ações</th>
                 </tr>
+                
               </thead>
               <tbody>
+                
                 <tr>
                   <td>1.</td>
                   <td>Hcode</td>
@@ -165,3 +168,52 @@
     </div>
 
     <%- include('inc/footer') -%>
+
+    <script src="/js/hcode-formsave.js"></script>
+
+    <script>
+
+let formCreate = document.querySelector("#modal-create form");
+
+formCreate.save().then(json => {
+
+  window.location.reload();
+
+}).catch(err => {
+
+  console.log(err)
+
+});
+
+let formUpdate = document.querySelector("#modal-update form");
+
+[...document.querySelectorAll('.btn-update')].forEach(btn => {
+
+  btn.addEventListener('click', e => {
+
+    let tr = btn.parentNode.parentNode;
+
+    let data = JSON.parse(tr.dataset.row)
+
+    for (let name in data) {
+
+      switch (name) {
+
+        case 'photo':
+          formUpdate.querySelector("img").src = '/' + data[name]
+          break;
+
+        default:
+          let input = formUpdate.querySelector(`[name]=${name}`);
+          if (input) input.value = data[name];
+      }
+
+    }
+
+    $('#modal-update').modal('show')
+
+  })
+
+});
+
+    </script>
