@@ -23,7 +23,13 @@ class grid {
             formCreate: '#modal-create form',
             formUpdate: '#modal-update form',
             btnUpdate: '.btn-update',
-            btnDelete: '.btn-delete'
+            btnDelete: '.btn-delete',
+            onUpdateload: (form, name, data) => {
+
+              let input =  form.querySelector('[name=' + name +']');
+             if (input) input.value = data[name];
+
+            }
 
         }, configs);
 
@@ -68,6 +74,8 @@ class grid {
         }
 
     }
+
+    
 
     initButtons() {
 
