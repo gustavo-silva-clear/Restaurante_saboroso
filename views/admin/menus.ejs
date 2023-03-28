@@ -189,7 +189,7 @@
                 break;
 
               default:
-                let input = formUpdate.querySelector(`[name]=${name}`);
+                let input = formUpdate.querySelector(`[name=${name}]`);
                 if (input) input.value = data[name];
             }
 

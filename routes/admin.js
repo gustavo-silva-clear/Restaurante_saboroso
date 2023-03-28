@@ -178,7 +178,7 @@ router.post('/reservations', function (req, res, next) {
 
 })
 
-router.delete('/re servations/:id', function (req, res, next) {
+router.delete('/reservations/:id', function (req, res, next) {
 
   reservations.delete(req.params.id).then(results => {
 
