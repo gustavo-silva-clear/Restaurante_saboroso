@@ -2,19 +2,27 @@ class grid {
 
     constructor(configs) {
 
+        configs.listeners = Object.assign({
+
+            afterUpdateClick: (e) => {
+
+                $('#modal-update').modal('show')
+
+            }
+
+        },configs.listeners)
+
         this.options = Object.assign({} , {
 
             formCreate:'#modal-create form' ,
             formUpdate:'#modal-update form' ,
             btnUpdate: '.btn-update',
-            btnDelete: '.btn-delete',
+            btnDelete: '.btn-delete'
 
         },configs);
 
         this.initForms();
-        this.initButtons( );
-
-        
+        this.initButtons();
 
     }
 
@@ -60,10 +68,10 @@ class grid {
 
                 for (let name in data) {
 
-                    let input = formUpdate.querySelector(`[name =${name}]`);
+                    let input = this.formUpdate.querySelector(`[name =${name}]`);
 
                     switch (name) {
-
+ 
                         case 'date':
 
                             if (input) input.value = moment(data[name]).format('YYYY-MM-DD')
