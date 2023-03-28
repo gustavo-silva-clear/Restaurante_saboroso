@@ -79,5 +79,27 @@ module.exports = {
 
         });
 
+    } ,
+
+    getReservations() {
+
+        return new Promise((resolve, reject) => {
+
+            conn.query(
+                `SELECT * FROM tb_reservations ORDER BY date DESC`,
+                (err, results) => {
+
+                    if (err) {
+
+                        reject();
+
+                    }
+
+                    resolve(results);
+
+                }
+            );
+        })
+
     }
 }
