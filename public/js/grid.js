@@ -76,28 +76,13 @@ class grid {
 
             btn.addEventListener('click', e => {
 
-                this.fireEvent('beforeDeleteClick', [e]);
-
                 let tr = btn.parentNode.parentNode;
 
                 let data = JSON.parse(tr.dataset.row)
 
                 for (let name in data) {
 
-                    let input = this.formUpdate.querySelector(`[name =${name}]`);
-
-                    switch (name) {
-
-                        case 'date':
-
-                            if (input) input.value = moment(data[name]).format('YYYY-MM-DD')
-
-                            break;
-
-                        default:
-
-                            if (input) input.value = data[name];
-                    }
+                    this.options.onUpdateload(this.formUpdate , name , data); 
 
                 }
 
@@ -110,6 +95,8 @@ class grid {
         [...document.querySelectorAll(this.options.btnDelete)].forEach(btn => {
 
             btn.addEventListener('click', e => {
+
+                this.fireEvent('beforeDeleteClick', [e]);
 
                 let tr = btn.parentNode.parentNode;
 
