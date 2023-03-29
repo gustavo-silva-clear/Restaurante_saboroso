@@ -40,7 +40,6 @@ router.get('/logout', function (req, res, next) {
 
 })
 
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
 
@@ -139,7 +138,7 @@ router.get('/emails', function (req, res, next) {
 
   emails.getEmails().then(data => {
 
-    res.render('admin/emails', admin.getParams(req , {data}));
+    res.render('admin/emails', admin.getParams(req, { data }));
 
   })
 
@@ -149,15 +148,15 @@ router.get('/emails', function (req, res, next) {
 
 router.delete('/emails/:id', function (req, res, next) {
 
- emails.delete(req.params.id).then(results => {
+  emails.delete(req.params.id).then(results => {
 
-res.send(results);
+    res.send(results);
 
- }).catch(err => {
+  }).catch(err => {
 
-res.send(error)
+    res.send(error)
 
- })
+  })
 
 
 
@@ -207,13 +206,18 @@ router.delete('/menus/:id', function (req, res, next) {
 
 router.get('/reservations', function (req, res, next) {
 
-  reservations.getReservations().then(data => {
+  reservations.getReservations(
+    req.query.page,
+    req.query.start,
+    req.query.end
+  ).then(pag => {
 
     res.render('admin/reservations', admin.getParams(req, {
 
       date: {},
-      data,
-      moment
+      data:pag.data,
+      moment,
+      links: pag.links
 
     }));
 
