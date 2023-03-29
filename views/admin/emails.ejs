@@ -19,8 +19,8 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Lista</h3>
-                    <a href="#" class="btn btn-xs pull-right btn-success" data-toggle="modal" data-target="#modal-create"><i
-                        class="fa fa-plus"></i> Novo</a>
+                    <a href="#" class="btn btn-xs pull-right btn-success" data-toggle="modal"
+                        data-target="#modal-create"><i class="fa fa-plus"></i> Novo</a>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body no-padding">
@@ -33,12 +33,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1.</td>
-                                <td>contato@hcode.com.br</td>
-                                <td><button type="button" class="btn btn-xs btn-danger btn-delete"><i
-                                            class="fa fa-trash"></i> Excluir</button></td>
-                            </tr>
+                            <% data.forEach(function(row){%>
+                                <tr data-row="<%= JSON.stringify(row) %>">
+                                    <td><%= row.id %></td>
+                                    <td><%= row.email %></td>
+                                    <td><button type="button" class="btn btn-xs btn-danger btn-delete"><i
+                                                class="fa fa-trash"></i> Excluir</button></td>
+                                </tr>
+                            <% }) %>
                         </tbody>
                     </table>
                 </div>
@@ -51,3 +53,16 @@
     <!-- /.content-wrapper -->
 
     <%- include('inc/footer') -%>
+
+    <script src="/js/hcode-formsave.js"></script>
+    <script src="/js/grid.js"></script>
+
+    <script>
+
+        new grid({
+  
+          deleteUrl: '/admin/emails/${data.id}',
+          deleteMsg: 'Deseja realmente excluir o email ${data.email}?'
+        })
+  
+      </script>

@@ -44,27 +44,37 @@ class grid {
 
         this.formCreate = document.querySelector(this.options.formCreate);
 
-        this.formCreate.save().then(json => {
+        this.formCreate.save({
 
-            window.location.reload();
+            seccess:() => {
 
-        }).catch(err => {
+                window.location.reload();
+            },
 
-            console.log(err)
+            failure:() => {
 
-        });
+                console.log(err)
+
+            }
+
+        })
 
         this.formUpdate = document.querySelector(this.options.formUpdate);
 
-        this.formUpdate.save().then(json => {
+        this.formUpdate.save({
 
-            window.location.reload();
+            seccess:() => {
 
-        }).catch(err => {
+                window.location.reload();
+            },
 
-            console.log(err)
+            failure:() => {
 
-        });
+                console.log(err)
+
+            }
+
+        })
 
 
     }

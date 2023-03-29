@@ -4,6 +4,7 @@ var users = require('./../inc/users');
 var admin = require('./../inc/admin');
 var menus = require('./../inc/menus');
 var contacts = require('./../inc/contacts');
+var emails = require('./../inc/emails');
 var reservations = require('./../inc/reservations');
 var moment = require('moment')
 var router = express.Router();
@@ -134,7 +135,29 @@ router.delete('/contacts/:id', function (req, res, next) {
 
 router.get('/emails', function (req, res, next) {
 
-  res.render('admin/emails', admin.getParams(req));
+  emails.getEmails().then(data => {
+
+    res.render('admin/emails', admin.getParams(req , {data}));
+
+  })
+
+
+
+});
+
+router.delete('/emails/:id', function (req, res, next) {
+
+ emails.delete(req.params.id).then(results => {
+
+res.send(results);
+
+ }).catch(err => {
+
+res.send(error)
+
+ })
+
+
 
 });
 
@@ -255,6 +278,24 @@ router.post('/users', function (req, res, next) {
 
 })
 
+router.post('/users/password-change', function (req, res, next) {
+
+  users.changePassword(req).then(results => {
+
+    res.send(results);
+
+  }).catch(err => {
+
+    res.send({
+
+      error: err
+
+    });
+
+  })
+
+})
+
 router.delete('/users/:id', function (req, res, next) {
 
   users.delete(req.params.id).then(results => {
@@ -268,6 +309,8 @@ router.delete('/users/:id', function (req, res, next) {
   });
 
 })
+
+
 
 module.exports = router;
 
