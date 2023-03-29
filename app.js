@@ -21,6 +21,12 @@ io.on('connection' ,  function(socket) {
 
 console.log('Novo usuario conectado')
 
+io.emit("reservation update" , {
+
+ date: new Date()
+
+})
+
 })
 
 app.use(function (req, res, next) {
