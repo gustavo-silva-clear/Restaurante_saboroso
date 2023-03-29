@@ -6,8 +6,10 @@ var menus = require('./../inc/menus');
 var contacts = require('./../inc/contacts');
 var emails = require('./../inc/emails');
 var reservations = require('./../inc/reservations');
-var moment = require('moment')
+var Pagination = require('./../inc/Pagination');
+var moment = require('moment');
 var router = express.Router();
+
 
 moment.locale("pt-BR");
 
