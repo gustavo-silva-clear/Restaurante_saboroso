@@ -69,6 +69,41 @@ class grid {
 
     }
 
+    initButtons() {
+
+        this.rows.forEach(row => {
+
+            [...row.querySelectorAll('.btn')].forEach(btn => {
+
+                btn.addEventListener('click' , e => {
+
+                    if(e.target.classList.contains(this.options.btnUpdate)) {
+
+                        this.btnUpdateClick();
+
+                    } else if (e.target.classList.contains(this.options.btnDelete)) {
+
+                        this.btnDeleteClick();
+
+                    } else {
+
+                        this.fireEvent('buttonClick', [e.target, e])
+                    }
+                    
+
+                })
+
+
+            });
+
+        });
+
+
+
+
+    }
+
+
     fireEvent(name, args) {
 
         if (typeof this.options.listeners[name] === 'function') {
@@ -120,38 +155,5 @@ btnDeleteClick(){
 
 
 }
-    initButtons() {
-
-        this.rows.forEach(row => {
-
-            [...row.querySelectorAll('.btn')].forEach(btn => {
-
-                btn.addEventListener('click' , e => {
-
-                    if(e.target.classList.contains(this.options.btnUpdate)) {
-
-                        this.btnUpdateClick();
-
-                    } else if (e.target.classList.contains(this.options.btnDelete)) {
-
-                        this.btnDeleteClick();
-
-                    } else {
-
-                        this.fireEvent('buttonClick', [e.target, e])
-                    }
-                    
-
-                })
-
-
-            });
-
-        });
-
-
-
-
-    }
-
+  
 }

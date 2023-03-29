@@ -165,6 +165,25 @@ module.exports = {
 
         })
 
+    },
+
+    changePassword(req){
+
+        return Promise((resolve , reject) => {
+
+            if(req.field.password){
+
+                reject("Preencha a senha!")
+
+            }
+            else{
+
+                
+
+            }
+
+        })
+
     }
 
 }
